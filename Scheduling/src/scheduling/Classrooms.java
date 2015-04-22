@@ -65,6 +65,18 @@ public class Classrooms {
         this.creditType = creditType;
     }
     
+    public boolean isAvailable()
+    {
+        if(roomAvailable)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+    
     
     
 }
