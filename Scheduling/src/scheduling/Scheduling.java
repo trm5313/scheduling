@@ -13,8 +13,10 @@ public class Scheduling {
     public int scheduleYear;
     public String scheduleSemester;
     public String scheduleDay;
-    public int schduleTime;
+    public int scheduleStartTime;
+    public int scheduleEndTime;
     public String scheduleOption;
+    public Class scheduledClass;
 
     public int getScheduleYear() {
         return scheduleYear;
@@ -40,12 +42,20 @@ public class Scheduling {
         this.scheduleDay = scheduleDay;
     }
 
-    public int getSchduleTime() {
-        return schduleTime;
+    public int getScheduleStartTime() {
+        return scheduleStartTime;
     }
 
-    public void setSchduleTime(int schduleTime) {
-        this.schduleTime = schduleTime;
+    public void setScheduleStartTime(int scheduleStartTime) {
+        this.scheduleStartTime = scheduleStartTime;
+    }
+
+    public int getScheduleEndTime() {
+        return scheduleEndTime;
+    }
+
+    public void setScheduleEndTime(int scheduleEndTime) {
+        this.scheduleEndTime = scheduleEndTime;
     }
 
     public String getScheduleOption() {
@@ -55,6 +65,17 @@ public class Scheduling {
     public void setScheduleOption(String scheduleOption) {
         this.scheduleOption = scheduleOption;
     }
+    
+    public void scheduleClass(Class currentClass, int scheduleYear, String scheduleSemester, String scheduleDay, int scheduleStartTime, int scheduleEndTime, String scheduleOption)
+    {
+        setScheduleYear(this.scheduleYear);
+        setScheduleSemester(this.scheduleSemester);
+        setScheduleDay(this.scheduleDay);
+        setScheduleStartTime(this.scheduleStartTime);
+        setScheduleEndTime(this.scheduleEndTime);
+        setScheduleOption(this.scheduleOption);
+        currentClass = scheduledClass;
+    }//scheduleClass *use in GUI*
     
     
 }
