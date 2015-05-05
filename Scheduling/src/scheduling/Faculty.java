@@ -13,8 +13,8 @@ public class Faculty {
     public int facultyID;
     public String facultyFname;
     public String facultyLname;
-    public int startTime;
-    public int endTime;
+    public String startTime;
+    public String endTime;
     public String facultyClassType;
 
     public int getFacultyID() {
@@ -41,19 +41,19 @@ public class Faculty {
         this.facultyLname = facultyLname;
     }
 
-    public int getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public int getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
