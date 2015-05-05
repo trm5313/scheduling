@@ -22,6 +22,14 @@ public class Database {
     protected PreparedStatement preparedQuery;
     protected ResultSet resultQuery;
     
+    protected String strGetTeach = "select teacherID, Fname, Lname from Faculty";//needs to gather preferences also, too tired for inner join logic
+    
+    protected String strGetClassrooms = "select roomSize, roomNumber, hasComputers, hasLabEquipment from classrooms";
+    
+    protected String strGetTimeslots = "select TID, StartTime, EndTime, Days from timeslot";
+    
+    
+    
     public Connection connect()
     { 
             try 
@@ -40,8 +48,34 @@ public class Database {
     
     public ArrayList<Faculty> getFacultyData()
     {
-        ArrayList<Faculty> facultyList;
-        return facultyList; //query for all staff in a specific option
+        Faculty cGet;
+        ArrayList<Faculty> cResult;
+        try 
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strGetTeach);
+            resultQuery = preparedQuery.executeQuery();
+            resultQuery.beforeFirst();
+            cResult = new ArrayList();
+            while(resultQuery.next())
+            {
+                cGet = new Faculty();
+                cGet.setFacultyID(resultQuery.getInt(1));
+                cGet.setFacultyFname(resultQuery.getString(2));
+                cGet.setFacultyLname(resultQuery.getString(3));
+                cGet.setStartTime(resultQuery.getString(4));
+                cGet.setEndTime(resultQuery.getString(5));
+                cGet.setFacultyClassType(resultQuery.getString(6));
+                cResult.add(cGet);
+            }
+            preparedQuery.close();
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database. Please contact IT. " + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        
+        return cResult;
     }
     
     public ArrayList<Classrooms> getClassroomData()
