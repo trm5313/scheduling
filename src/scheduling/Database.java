@@ -105,6 +105,7 @@ public class Database {
             preparedQuery.setString(2, ClassName);
             preparedQuery.setString(3, Option);
             preparedQuery.setString(4, ID);
+            preparedQuery.executeUpdate();
         }
         catch (SQLException ex) 
         {
@@ -121,6 +122,7 @@ public class Database {
             preparedQuery.setString(2, ID);
             preparedQuery.setString(3, RoomNum);
             preparedQuery.setString(4, Day);
+            preparedQuery.executeUpdate();
         }
         catch (SQLException ex) 
         {
@@ -135,6 +137,7 @@ public class Database {
             preparedQuery = connectionDatabase.prepareStatement(strSetSection);
             preparedQuery.setInt(1, SchedNum);
             preparedQuery.setInt(2, SecNum);
+            preparedQuery.executeUpdate();
         }
         catch (SQLException ex) 
         {
