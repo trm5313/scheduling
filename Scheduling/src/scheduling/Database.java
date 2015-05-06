@@ -22,11 +22,19 @@ public class Database {
     protected PreparedStatement preparedQuery;
     protected ResultSet resultQuery;
     
-    protected String strGetTeach = "select teacherID, Fname, Lname from Faculty";//needs to gather preferences also, too tired for inner join logic
+    protected String strGetTeach = "select TeacherID, Fname, Lname from teachers";
     
     protected String strGetClassrooms = "select roomSize, roomNumber, hasComputers, hasLabEquipment from classrooms";
     
     protected String strGetTimeslots = "select TID, StartTime, EndTime, Days from timeslot";
+    
+    protected String strSetCourse = "insert into courses (ScheduleNumber, CourseID, CourseOption, ClassName) values (?,?,?,?);";
+    
+    protected String strSetSchedule = "insert into schedule (ScheduleNumber, TeacherID, RoomNumber, Day) values (?,?,?,?);";
+    
+    protected String strSetSection = "insert into section (ScheduleNumber, SectionNumber) values (?,?);";
+    
+    protected String wtfisthis = "tester";
     
     
     
@@ -62,9 +70,7 @@ public class Database {
                 cGet.setFacultyID(resultQuery.getInt(1));
                 cGet.setFacultyFname(resultQuery.getString(2));
                 cGet.setFacultyLname(resultQuery.getString(3));
-                cGet.setStartTime(resultQuery.getString(4));
-                cGet.setEndTime(resultQuery.getString(5));
-                cGet.setFacultyClassType(resultQuery.getString(6));
+
                 cResult.add(cGet);
             }
             preparedQuery.close();
@@ -78,20 +84,62 @@ public class Database {
         return cResult;
     }
     
-    public ArrayList<Classrooms> getClassroomData()
+public void SetCourses (int SchedNum, int ID, String Option, String ClassName)
     {
-        ArrayList<Classrooms> classroomsList;
-        return classroomsList; //query for all classrooms? I think all classrooms can be for any class
+        try
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strSetCourse);
+            preparedQuery.setInt(1, SchedNum);
+            preparedQuery.setInt(1, ID);
+            preparedQuery.setString(3, Option);
+            preparedQuery.setString(4, ClassName);
+        }
+        catch (SQLException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database." + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);      
+        }      
     }
     
-    public ArrayList<Classes> getClassData()
+    public void SetSchedule (int SchedNum, String ID, String RoomNum, String Day)
     {
-        ArrayList<Classes> classList;
-        return classList; //query for all of selected option classes
+        try
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strSetSchedule);
+            preparedQuery.setInt(1, SchedNum);
+            preparedQuery.setString(1, ID);
+            preparedQuery.setString(3, RoomNum);
+            preparedQuery.setString(4, Day);
+        }
+        catch (SQLException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database." + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);      
+        }      
     }
     
-    public void sendData()
+        public void SetSection (int SchedNum, String SecNum)
     {
-        //might be a way to send all data changed client side to server all at once...not sure.
+        try
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strSetSection);
+            preparedQuery.setInt(1, SchedNum);
+            preparedQuery.setString(1, SecNum);
+        }
+        catch (SQLException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database." + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);      
+        }      
     }
+
+    
+    public void disconnect()
+    {
+        try 
+        {
+            connectionDatabase.close();
+        } 
+        catch (SQLException ex) 
+        {
+            //handle
+        }
+    }// disconnect
 }
