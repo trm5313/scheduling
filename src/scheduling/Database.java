@@ -22,6 +22,10 @@ public class Database {
     protected PreparedStatement preparedQuery;
     protected ResultSet resultQuery;
     
+    protected String strGetIfhasComputers = "select hasComputers from classrooms where RoomNumber = ?";
+    
+    protected String strGetRoom = "select RoomNumber from classrooms where Building=?";
+    
     protected String strGetBuilding = "select distinct Building from classrooms;";
     
     protected String strSetCourse = "insert into courses (ScheduleNumber, CourseID, CourseOption, ClassName) values (?,?,?,?);";
@@ -136,8 +140,34 @@ public class Database {
         }      
     }
         
+    public String[] getRoomData(String Building)
+    {
+        String[] cGet = new String[20];
+        int num=0;
+        try 
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strGetRoom);
+            preparedQuery.setString(1,Building);
+            resultQuery = preparedQuery.executeQuery();
+            resultQuery.beforeFirst();
+            while(resultQuery.next())
+            {
+                cGet[num]=resultQuery.getString(1);
+                num++;
+            }
+            preparedQuery.close();
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database. Please contact IT. " + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        
+        return cGet;
+    } 
+        
     public String[] getBuildingData() {
-        String[] cGet = new String[25];
+        String[] cGet = new String[20];
         int num=0;
         try 
         {
@@ -156,8 +186,31 @@ public class Database {
             JOptionPane.showMessageDialog(null, "Error reading database. Please contact IT. " + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);
             return null;
         }
-        
         return cGet;
+    }
+    
+    public boolean getIfhasComputers(String Room)
+    {
+        boolean value=true;
+        try 
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strGetIfhasComputers);
+            preparedQuery.setString(1,Room);
+            resultQuery = preparedQuery.executeQuery();
+            resultQuery.beforeFirst();
+            
+            while(resultQuery.next())
+            {
+             value = resultQuery.getBoolean(1);
+            }
+        }
+                    
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database. Please contact IT. " + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return value;
     }
     
     public void sendData()
