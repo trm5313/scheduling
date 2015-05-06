@@ -34,7 +34,7 @@ public class Database {
     
     protected String strSetSection = "insert into section (ScheduleNumber, SectionNumber) values (?,?);";
     
-    protected String wtfisthis = "tester";
+    protected String wtfisthis = "tester2";
     
     
     
