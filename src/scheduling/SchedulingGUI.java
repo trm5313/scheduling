@@ -643,7 +643,7 @@ public class SchedulingGUI extends javax.swing.JFrame {
             day = "F";
         currentConnection.connect();
         currentConnection.SetCourses(parseInt(ScheduleNum.getText()), Subject.getText(), Option.getSelectedItem().toString(), CourseLevel.getText());
-        currentConnection.SetSchedule(parseInt(ScheduleNum.getText()), valueOf(selectedTeacher.getFacultyID()), valueOf(Room.roomNumber), day);
+        currentConnection.SetSchedule(parseInt(ScheduleNum.getText()), valueOf(selectedTeacher.getFacultyID()), jComboBox6.getSelectedItem().toString(), day);
         currentConnection.SetSection(parseInt(ScheduleNum.getText()), parseInt(Section.getText()));
         currentConnection.disconnect(); 
     }//GEN-LAST:event_jButton1ActionPerformed
