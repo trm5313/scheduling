@@ -8,6 +8,8 @@ package scheduling;
 import java.awt.Button;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 
 /**
@@ -19,8 +21,12 @@ public class SchedulingGUI extends javax.swing.JFrame {
     /**
      * Creates new form SchedulingGUI
      */
+    
+    ComboBoxModel listfaculty;
+    Database currentConnection = new Database();
+    
     public SchedulingGUI() {
-        initComponents();
+        initComponents();  
     }
 
     /**
@@ -74,8 +80,6 @@ public class SchedulingGUI extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
         jSeparator9 = new javax.swing.JSeparator();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
@@ -155,7 +159,6 @@ public class SchedulingGUI extends javax.swing.JFrame {
         jLabel4.setText("Preffered Start Time: ");
 
         jTextField1.setEditable(false);
-        jTextField1.setText("6:00 AM");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -165,7 +168,6 @@ public class SchedulingGUI extends javax.swing.JFrame {
         jLabel5.setText("Preffered End Time: ");
 
         jTextField2.setEditable(false);
-        jTextField2.setText("4:00 PM");
 
         jButton1.setText("Schedule Course");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -200,10 +202,8 @@ public class SchedulingGUI extends javax.swing.JFrame {
         jLabel12.setText("Class End Time: ");
 
         StartTime.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        StartTime.setText("1:40 PM");
 
         EndTime.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        EndTime.setText("2:50 PM");
         EndTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EndTimeActionPerformed(evt);
@@ -213,17 +213,29 @@ public class SchedulingGUI extends javax.swing.JFrame {
         jLabel13.setText("Course Subject:");
 
         Subject.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        Subject.setText("IST");
+        Subject.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                SubjectFocusLost(evt);
+            }
+        });
+        Subject.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                SubjectPropertyChange(evt);
+            }
+        });
 
         jLabel14.setText("Course Level: ");
 
         CourseLevel.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        CourseLevel.setText("261");
+        CourseLevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CourseLevelActionPerformed(evt);
+            }
+        });
 
         jLabel15.setText("Course Section: ");
 
         jTextField9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField9.setText("001");
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);
@@ -233,31 +245,6 @@ public class SchedulingGUI extends javax.swing.JFrame {
         jLabel16.setText("Schedule #: ");
 
         jTextField10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField10.setText("518950");
-
-        jButton2.setText("RAP Sheet Search");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Teacher Course Preferences");
-        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton4MouseClicked(evt);
-            }
-        });
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -361,16 +348,8 @@ public class SchedulingGUI extends javax.swing.JFrame {
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(191, 191, 191))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73))))
+                .addComponent(jLabel10)
+                .addGap(191, 191, 191))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,9 +402,7 @@ public class SchedulingGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(94, 94, 94)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -440,8 +417,6 @@ public class SchedulingGUI extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -456,7 +431,7 @@ public class SchedulingGUI extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 693, Short.MAX_VALUE)
         );
 
         jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -614,14 +589,6 @@ public class SchedulingGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2MouseClicked
-
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
@@ -670,13 +637,17 @@ public class SchedulingGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+    private void SubjectPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_SubjectPropertyChange
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4MouseClicked
+    }//GEN-LAST:event_SubjectPropertyChange
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void CourseLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseLevelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_CourseLevelActionPerformed
+
+    private void SubjectFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_SubjectFocusLost
+
+    }//GEN-LAST:event_SubjectFocusLost
 
     /**
      * @param args the command line arguments
@@ -719,9 +690,7 @@ public class SchedulingGUI extends javax.swing.JFrame {
     private javax.swing.JTextField StartTime;
     private javax.swing.JTextField Subject;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
