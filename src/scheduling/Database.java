@@ -24,6 +24,8 @@ public class Database {
     
     protected String strGetIfhasComputers = "select hasComputers from classrooms where RoomNumber = ?";
     
+    protected String strGetIfhasScience = "select hasScienceEquipment from classrooms where RoomNumber = ?";
+    
     protected String strGetRoom = "select RoomNumber from classrooms where Building=?";
     
     protected String strGetBuilding = "select distinct Building from classrooms;";
@@ -195,6 +197,30 @@ public class Database {
         try 
         {
             preparedQuery = connectionDatabase.prepareStatement(strGetIfhasComputers);
+            preparedQuery.setString(1,Room);
+            resultQuery = preparedQuery.executeQuery();
+            resultQuery.beforeFirst();
+            
+            while(resultQuery.next())
+            {
+             value = resultQuery.getBoolean(1);
+            }
+        }
+                    
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database. Please contact IT. " + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return value;
+    }
+    
+        public boolean getIfhasScience(String Room)
+    {
+        boolean value=true;
+        try 
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strGetIfhasScience);
             preparedQuery.setString(1,Room);
             resultQuery = preparedQuery.executeQuery();
             resultQuery.beforeFirst();
