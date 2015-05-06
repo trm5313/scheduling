@@ -34,6 +34,8 @@ public class Database {
     
     protected String strGetTimeslots = "select TID, StartTime, EndTime, Days from timeslot";
     
+    protected String wtfisthisshit = "workdammit";
+    
     
     
     public Connection connect()
