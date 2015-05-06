@@ -423,7 +423,7 @@ public class SchedulingGUI extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 693, Short.MAX_VALUE)
+            .addGap(0, 717, Short.MAX_VALUE)
         );
 
         jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -594,8 +594,10 @@ public class SchedulingGUI extends javax.swing.JFrame {
         JButton a=new JButton("<html><center>"+Subject.getText()+" "+CourseLevel.getText()+"</center></html>");
 
         jPanel2.add(a);
+        
+        
 
-        a.setBounds(0, 295, 100, 60);
+        a.setBounds(0, (int) (52*(Double.parseDouble(StartTime.getText())-8)-5), 100, 69);
 
         a.validate();
 
@@ -622,7 +624,6 @@ public class SchedulingGUI extends javax.swing.JFrame {
             selectedTeacher = currentteacher;
         }
     }
-    System.out.println(selectedTeacher);
     jTextField1.setText(selectedTeacher.getStartTime());
     jTextField2.setText(selectedTeacher.getEndTime());
     }//GEN-LAST:event_jComboBox2ActionPerformed
