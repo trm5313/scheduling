@@ -28,7 +28,7 @@ public class Database {
     
     protected String strSetSection = "insert into section (ScheduleNumber, SectionNumber) values (?,?);";
     
-    protected String strGetTeach = "select teacherID, Fname, Lname from teachers";//needs to gather preferences also, too tired for inner join logic
+    protected String strGetTeach = "select teachers.TeacherID, teachers.Fname, teachers.Lname, preferences.Course, preferences.StartTime, preferences.EndTime from teachers inner join teacher_pref on teacher_pref.TeacherID = teachers.TeacherID inner join preferences on preferences.Course = teacher_pref.Course where preferences.Course = 'IST';";
     
     protected String strGetClassrooms = "select roomSize, roomNumber, hasComputers, hasLabEquipment from classrooms";
     
