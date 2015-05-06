@@ -84,17 +84,6 @@ public class Database {
         return cResult;
     }
     
-    public ArrayList<Classrooms> getClassroomData()
-    {
-        ArrayList<Classrooms> classroomsList;
-        return classroomsList; //query for all classrooms? I think all classrooms can be for any class
-    }
-    
-    public ArrayList<Classes> getClassData()
-    {
-        ArrayList<Classes> classList;
-        return classList; //query for all of selected option classes
-    }
     
     public void SetCourses (int SchedNum, int ID, String Option, String ClassName)
     {
@@ -146,4 +135,16 @@ public class Database {
     {
         //might be a way to send all data changed client side to server all at once...not sure.
     }
+    
+    public void disconnect()
+    {
+        try 
+        {
+            connectionDatabase.close();
+        } 
+        catch (SQLException ex) 
+        {
+            //handle
+        }
+    }// disconnect
 }
