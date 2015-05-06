@@ -699,13 +699,15 @@ public class SchedulingGUI extends javax.swing.JFrame {
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
         currentConnection.connect();
         jCheckBox6.setSelected(currentConnection.getIfhasComputers(jComboBox6.getSelectedItem().toString()));
+        ScienceCheck.setSelected(currentConnection.getIfhasScience(jComboBox6.getSelectedItem().toString()));
         currentConnection.disconnect();
+        
+        
+        
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
     private void ScienceCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ScienceCheckActionPerformed
-        currentConnection.connect();
-        ScienceCheck.setSelected(currentConnection.getIfhasScience(jComboBox6.getSelectedItem().toString()));
-        currentConnection.disconnect();
+
     }//GEN-LAST:event_ScienceCheckActionPerformed
 
     /**
