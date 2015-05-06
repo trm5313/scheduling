@@ -22,6 +22,8 @@ public class Database {
     protected PreparedStatement preparedQuery;
     protected ResultSet resultQuery;
     
+    protected String strGetBuilding = "select distinct Building from classrooms;";
+    
     protected String strSetCourse = "insert into courses (ScheduleNumber, CourseID, CourseOption, ClassName) values (?,?,?,?);";
     
     protected String strSetSchedule = "insert into schedule (ScheduleNumber, TeacherID, RoomNumber, Day) values (?,?,?,?);";
@@ -132,6 +134,30 @@ public class Database {
         {
             JOptionPane.showMessageDialog(null, "Error reading database." + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);      
         }      
+    }
+        
+    public String[] getBuildingData() {
+        String[] cGet = new String[25];
+        int num=0;
+        try 
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strGetBuilding);
+            resultQuery = preparedQuery.executeQuery();
+            resultQuery.beforeFirst();
+            while(resultQuery.next())
+            {
+                cGet[num]=resultQuery.getString(1);
+                num++;
+            }
+            preparedQuery.close();
+        } 
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database. Please contact IT. " + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        
+        return cGet;
     }
     
     public void sendData()
