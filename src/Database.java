@@ -22,6 +22,12 @@ public class Database {
     protected PreparedStatement preparedQuery;
     protected ResultSet resultQuery;
     
+    protected String strSetCourse = "insert into courses (ScheduleNumber, CourseID, CourseOption, ClassName) values (?,?,?,?);";
+    
+    protected String strSetSchedule = "insert into schedule (ScheduleNumber, TeacherID, RoomNumber, Day) values (?,?,?,?);";
+    
+    protected String strSetSection = "insert into section (ScheduleNumber, SectionNumber) values (?,?);";
+    
     protected String strGetTeach = "select teacherID, Fname, Lname from Faculty";//needs to gather preferences also, too tired for inner join logic
     
     protected String strGetClassrooms = "select roomSize, roomNumber, hasComputers, hasLabEquipment from classrooms";
@@ -88,6 +94,52 @@ public class Database {
     {
         ArrayList<Classes> classList;
         return classList; //query for all of selected option classes
+    }
+    
+    public void SetCourses (int SchedNum, int ID, String Option, String ClassName)
+    {
+        try
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strSetCourse);
+            preparedQuery.setInt(1, SchedNum);
+            preparedQuery.setInt(1, ID);
+            preparedQuery.setString(3, Option);
+            preparedQuery.setString(4, ClassName);
+        }
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database." + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);      
+        }      
+    }
+    
+    public void SetSchedule (int SchedNum, String ID, String RoomNum, String Day)
+    {
+        try
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strSetSchedule);
+            preparedQuery.setInt(1, SchedNum);
+            preparedQuery.setString(1, ID);
+            preparedQuery.setString(3, RoomNum);
+            preparedQuery.setString(4, Day);
+        }
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database." + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);      
+        }      
+    }
+    
+        public void SetSection (int SchedNum, String SecNum)
+    {
+        try
+        {
+            preparedQuery = connectionDatabase.prepareStatement(strSetSection);
+            preparedQuery.setInt(1, SchedNum);
+            preparedQuery.setString(1, SecNum);
+        }
+        catch (SQLException ex) 
+        {
+            JOptionPane.showMessageDialog(null, "Error reading database." + ex.getMessage(), ex.getClass().toString(), JOptionPane.ERROR_MESSAGE);      
+        }      
     }
     
     public void sendData()
