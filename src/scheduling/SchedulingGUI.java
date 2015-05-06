@@ -22,6 +22,7 @@ public class SchedulingGUI extends javax.swing.JFrame {
      */
     
     Database currentConnection = new Database();
+    Faculty selectedTeacher;
     
     public SchedulingGUI() {
         initComponents();
@@ -609,7 +610,23 @@ public class SchedulingGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
+    currentConnection.connect();
+    ArrayList<Faculty> fac = currentConnection.getFacultyData(Subject.getText());
+    currentConnection.disconnect();
+    String compareTeacher="";
+    for(Faculty currentteacher : fac)
+    {
+        System.out.println("comparing " + jComboBox2.getSelectedItem().toString() + " to " + currentteacher.getFacultyFname()+" "+currentteacher.getFacultyLname());
+        compareTeacher = currentteacher.getFacultyFname()+" "+currentteacher.getFacultyLname();
+        if (compareTeacher == (jComboBox2.getSelectedItem()))
+        {
+            selectedTeacher = currentteacher;
+            System.out.println("got in here");
+        }
+    }
+    System.out.println(selectedTeacher);
+    jTextField1.setText(selectedTeacher.getStartTime());
+    jTextField2.setText(selectedTeacher.getEndTime());
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
@@ -636,13 +653,13 @@ public class SchedulingGUI extends javax.swing.JFrame {
     String[] facultyList = new String[25];
     int num=0;
     currentConnection.connect();
-    ArrayList<Faculty> fac = currentConnection.getFacultyData();
+    ArrayList<Faculty> fac = currentConnection.getFacultyData(Subject.getText());
+    currentConnection.disconnect();
     for (Faculty currentteacher : fac)
     {
         facultyList[num]=currentteacher.getFacultyFname() +" "+ currentteacher.getFacultyLname();
         num++;
     }
-    currentConnection.disconnect();
     jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(facultyList));
     }//GEN-LAST:event_SubjectFocusLost
 
