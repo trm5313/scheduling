@@ -96,15 +96,15 @@ public class Database {
     }
     
     
-    public void SetCourses (int SchedNum, int ID, String Option, String ClassName)
+    public void SetCourses (int SchedNum, String ClassName, String Option, String ID)
     {
         try
         {
             preparedQuery = connectionDatabase.prepareStatement(strSetCourse);
             preparedQuery.setInt(1, SchedNum);
-            preparedQuery.setInt(1, ID);
+            preparedQuery.setString(2, ClassName);
             preparedQuery.setString(3, Option);
-            preparedQuery.setString(4, ClassName);
+            preparedQuery.setString(4, ID);
         }
         catch (SQLException ex) 
         {
@@ -118,7 +118,7 @@ public class Database {
         {
             preparedQuery = connectionDatabase.prepareStatement(strSetSchedule);
             preparedQuery.setInt(1, SchedNum);
-            preparedQuery.setString(1, ID);
+            preparedQuery.setString(2, ID);
             preparedQuery.setString(3, RoomNum);
             preparedQuery.setString(4, Day);
         }
@@ -128,13 +128,13 @@ public class Database {
         }      
     }
     
-        public void SetSection (int SchedNum, String SecNum)
+        public void SetSection (int SchedNum, int SecNum)
     {
         try
         {
             preparedQuery = connectionDatabase.prepareStatement(strSetSection);
             preparedQuery.setInt(1, SchedNum);
-            preparedQuery.setString(1, SecNum);
+            preparedQuery.setInt(2, SecNum);
         }
         catch (SQLException ex) 
         {
