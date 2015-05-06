@@ -28,7 +28,7 @@ public class Database {
     
     protected String strSetSection = "insert into section (ScheduleNumber, SectionNumber) values (?,?);";
     
-    protected String strGetTeach = "select teachers.TeacherID, teachers.Fname, teachers.Lname, preferences.Course, preferences.StartTime, preferences.EndTime from teachers inner join teacher_pref on teacher_pref.TeacherID = teachers.TeacherID inner join preferences on preferences.Course = teacher_pref.Course where preferences.Course = 'IST';";
+    protected String strGetTeach = "select teachers.TeacherID, teachers.Fname, teachers.Lname, preferences.Course, preferences.StartTime, preferences.EndTime from teachers inner join teacher_pref on teacher_pref.TeacherID = teachers.TeacherID inner join preferences on preferences.Course = teacher_pref.Course where preferences.Course = ?;";
     
     protected String strGetClassrooms = "select roomSize, roomNumber, hasComputers, hasLabEquipment from classrooms";
     
@@ -54,13 +54,14 @@ public class Database {
 
     }// connect
     
-    public ArrayList<Faculty> getFacultyData()
+    public ArrayList<Faculty> getFacultyData(String Course)
     {
         Faculty cGet;
         ArrayList<Faculty> cResult;
         try 
         {
             preparedQuery = connectionDatabase.prepareStatement(strGetTeach);
+            preparedQuery.setString(1,Course);
             resultQuery = preparedQuery.executeQuery();
             resultQuery.beforeFirst();
             cResult = new ArrayList();
@@ -70,6 +71,9 @@ public class Database {
                 cGet.setFacultyID(resultQuery.getInt(1));
                 cGet.setFacultyFname(resultQuery.getString(2));
                 cGet.setFacultyLname(resultQuery.getString(3));
+                cGet.setFacultyClassType(resultQuery.getString(4));
+                cGet.setStartTime(resultQuery.getString(5));
+                cGet.setEndTime(resultQuery.getString(6));
                 cResult.add(cGet);
             }
             preparedQuery.close();
