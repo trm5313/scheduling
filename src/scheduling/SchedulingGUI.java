@@ -616,12 +616,10 @@ public class SchedulingGUI extends javax.swing.JFrame {
     String compareTeacher="";
     for(Faculty currentteacher : fac)
     {
-        System.out.println("comparing " + jComboBox2.getSelectedItem().toString() + " to " + currentteacher.getFacultyFname()+" "+currentteacher.getFacultyLname());
         compareTeacher = currentteacher.getFacultyFname()+" "+currentteacher.getFacultyLname();
-        if (compareTeacher == (jComboBox2.getSelectedItem()))
+        if (compareTeacher.equals(jComboBox2.getSelectedItem()))
         {
             selectedTeacher = currentteacher;
-            System.out.println("got in here");
         }
     }
     System.out.println(selectedTeacher);
