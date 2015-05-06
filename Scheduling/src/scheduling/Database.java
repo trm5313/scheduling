@@ -35,7 +35,7 @@ public class Database {
             try 
             { 
                 Class.forName("com.mysql.jdbc.Driver");
-                connectionDatabase = DriverManager.getConnection("jdbc:mysql://istdata.bk.psu.edu:3306/trm5313?user=dwk5369&password=berks2194");
+                connectionDatabase = DriverManager.getConnection("jdbc:mysql://istdata.bk.psu.edu:3306/trm5313?user=trm5313&password=berks2194");
                 return connectionDatabase;
             } 
             catch (ClassNotFoundException|SQLException ex) 
